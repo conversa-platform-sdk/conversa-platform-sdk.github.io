@@ -1,0 +1,16 @@
+{
+  "name": "conversa-sdk-demo",
+  "version": "2.0.0",
+  "description": "Demo app for the Conversa SDK",
+  "main": "index.js",
+  "scripts": {
+    "test": "node verify.js",
+    "verify": "node verify.js",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "node-fetch": "^2.7.0",
+    "dotenv": "^16.4.5"
+  },
+  "license": "MIT"
+}
