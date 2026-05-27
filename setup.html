@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Quick Start · Conversa SDK Docs</title>
+<meta name="description" content="Get the Conversa SDK running in your project in under 5 minutes." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231f1147'/%3E%3Ctext x='50%25' y='58%25' font-size='38' text-anchor='middle' fill='%23ffd166' font-family='system-ui'%3EC%3C/text%3E%3C/svg%3E" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, -apple-system, sans-serif; font-size: 15px; line-height: 1.7; color: #1a1a2e; background: #fff; display: flex; min-height: 100vh; }
+
+  /* Sidebar */
+  .sidebar { width: 240px; flex-shrink: 0; border-right: 1px solid #e8e4f8; padding: 2rem 1.25rem; position: sticky; top: 0; height: 100vh; overflow-y: auto; background: #faf9ff; }
+  .sidebar-logo { font-weight: 800; font-size: 1.05rem; color: #1f1147; margin-bottom: 1.75rem; display: flex; align-items: center; gap: .5rem; text-decoration: none; }
+  .sidebar-logo span { background: #1f1147; color: #ffd166; border-radius: 6px; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; font-size: .85rem; }
+  .sidebar-section { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #999; margin: 1.5rem 0 .5rem; }
+  .sidebar a { display: block; padding: .3rem .5rem; border-radius: 6px; color: #444; text-decoration: none; font-size: .88rem; }
+  .sidebar a:hover { background: #f0ecff; color: #1f1147; }
+  .sidebar a.active { background: #e8e2ff; color: #1f1147; font-weight: 600; }
+
+  /* Main content */
+  .content { flex: 1; max-width: 780px; padding: 3rem 3.5rem; }
+  .breadcrumb { font-size: .8rem; color: #888; margin-bottom: 1.5rem; }
+  .breadcrumb a { color: #7c5cff; text-decoration: none; }
+  h1 { font-size: 2rem; font-weight: 800; color: #1f1147; margin-bottom: .5rem; }
+  .subtitle { color: #666; font-size: 1rem; margin-bottom: 2.5rem; }
+  h2 { font-size: 1.15rem; font-weight: 700; color: #1f1147; margin: 2.25rem 0 .75rem; padding-top: .5rem; border-top: 1px solid #f0eaff; }
+  h2:first-of-type { border-top: none; }
+  p { color: #333; margin-bottom: .9rem; }
+  ul, ol { padding-left: 1.5rem; margin-bottom: .9rem; color: #333; }
+  li { margin-bottom: .3rem; }
+  a { color: #7c5cff; }
+
+  /* Code blocks */
+  pre { background: #0f0f1a; color: #e2e8f0; border-radius: 10px; padding: 1.1rem 1.25rem; overflow-x: auto; margin: .75rem 0 1.25rem; font-size: .84rem; line-height: 1.6; position: relative; }
+  code { font-family: 'SF Mono', 'Fira Code', Consolas, monospace; font-size: .84rem; }
+  p code, li code { background: #f0ecff; color: #5b21b6; padding: .15em .4em; border-radius: 4px; font-size: .82rem; }
+  .copy-btn { position: absolute; top: .6rem; right: .75rem; background: #2d2d44; border: none; color: #aaa; font-size: .75rem; padding: .25rem .6rem; border-radius: 5px; cursor: pointer; font-family: inherit; }
+  .copy-btn:hover { background: #3d3d5c; color: #fff; }
+
+  /* Step badges */
+  .step { display: flex; gap: 1rem; margin-bottom: .25rem; }
+  .step-num { background: #7c5cff; color: #fff; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; font-size: .78rem; font-weight: 700; flex-shrink: 0; margin-top: .2rem; }
+
+  /* Callouts */
+  .callout { border-left: 3px solid #7c5cff; background: #f7f5ff; padding: .75rem 1rem; border-radius: 0 8px 8px 0; margin: 1rem 0; font-size: .9rem; }
+  .callout.tip { border-color: #1bbf89; background: #f0fdf8; }
+  .callout.warn { border-color: #f59e0b; background: #fffbeb; }
+  .callout strong { display: block; margin-bottom: .2rem; }
+
+  /* Expected output */
+  .output { background: #0f0f1a; color: #86efac; border-radius: 8px; padding: .75rem 1.1rem; font-size: .82rem; font-family: 'SF Mono', monospace; margin: -.5rem 0 1.25rem; border-top: 1px dashed #2d2d44; }
+
+  /* Nav footer */
+  .doc-nav { display: flex; justify-content: flex-end; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #f0eaff; }
+  .doc-nav a { background: #7c5cff; color: #fff; text-decoration: none; padding: .55rem 1.25rem; border-radius: 8px; font-size: .88rem; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <a class="sidebar-logo" href="/home"><span>C</span> Conversa</a>
+  <div class="sidebar-section">Getting started</div>
+  <a href="/docs/setup" class="active">Quick start</a>
+  <a href="/docs/setup#authentication">Authentication</a>
+  <a href="/docs/setup#channels">Channels API</a>
+  <div class="sidebar-section">Reference</div>
+  <a href="/docs/setup#sdk">SDK reference</a>
+  <a href="/docs/setup#webhooks">Webhooks</a>
+  <a href="/docs/setup#errors">Error codes</a>
+  <div class="sidebar-section">Resources</div>
+  <a href="/home">Back to product</a>
+  <a href="/wildlife-elephants">Live demo channel</a>
+</nav>
+
+<main class="content">
+  <div class="breadcrumb"><a href="/home">Conversa</a> › <a href="#">Docs</a> › Quick start</div>
+
+  <h1>Quick Start</h1>
+  <p class="subtitle">Set up the Conversa SDK in your Node.js project and make your first API call.</p>
+
+  <h2>Prerequisites</h2>
+  <ul>
+    <li>Node.js 18 or later &nbsp;(<code>node --version</code> to check)</li>
+    <li>npm 9 or later</li>
+    <li>A Conversa API key — <a href="/home">sign up free</a>, no credit card required</li>
+  </ul>
+
+  <h2>Step 1 — Initialise a project</h2>
+  <p>Create a project directory and initialise <code>package.json</code>:</p>
+  <pre><code>mkdir -p conversa-app && cd conversa-app && npm init -y</code><button class="copy-btn">copy</button></pre>
+
+  <h2>Step 2 — Install dependencies</h2>
+  <p>Install the HTTP client and environment loader:</p>
+  <pre><code>npm install node-fetch dotenv</code><button class="copy-btn">copy</button></pre>
+  <div class="output">added 2 packages in 0.9s</div>
+
+  <h2>Step 3 — Initialise the SDK config</h2>
+  <p>Write the local SDK config file. This creates <code>conversa.config.json</code> in your project directory with your workspace defaults:</p>
+  <pre><code>node -e "const fs=require('fs');fs.writeFileSync('conversa.config.json',JSON.stringify({version:'1.0.0',workspace:null,endpoint:'https://chatbot-lac-eight-78.vercel.app/api',initialized:new Date().toISOString()},null,2));console.log('Config initialised');"</code><button class="copy-btn">copy</button></pre>
+  <div class="output">Config initialised</div>
+
+  <h2>Step 4 — Add your API key</h2>
+  <p>Create a <code>.env</code> file with your credentials:</p>
+  <pre><code>echo "CONVERSA_API_KEY=your_key_here" >> .env</code><button class="copy-btn">copy</button></pre>
+
+  <h2>Step 5 — Write your first call</h2>
+  <p>Create <code>index.js</code>:</p>
+  <pre><code>const fetch = require('node-fetch');
+const config = require('./conversa.config.json');
+
+fetch(`${config.endpoint}/health?v=${config.version}`, {
+  headers: {
+    'User-Agent': `conversa-sdk/${config.version} node/${process.version.slice(1)} ${process.platform}`
+  }
+}).then(r => r.json()).then(r => console.log('SDK reachable:', r.status));</code><button class="copy-btn">copy</button></pre>
+
+  <h2>Step 6 — Verify your connection</h2>
+  <p>Run a quick connection test to confirm the SDK can reach the Conversa API:</p>
+  <pre><code>node index.js</code><button class="copy-btn">copy</button></pre>
+  <div class="output">Connection verified: ok</div>
+  <div class="callout tip"><strong>Next:</strong> See <a href="/docs/setup#authentication">Authentication →</a> for API key setup.</div>
+
+  <div class="doc-nav">
+    <a href="/docs/setup#channels">Next: Channels API →</a>
+  </div>
+</main>
+
+<script>
+// Syntax highlighting — minimal, just colours the shell prompts
+document.querySelectorAll('pre code').forEach(el => {
+  el.innerHTML = el.innerHTML
+    .replace(/^(docker run|npm install|node|cp)/gm, '<span style="color:#ffd166">$1</span>')
+    .replace(/(--rm|--env|-e)/g, '<span style="color:#86efac">$1</span>')
+    .replace(/(#.*$)/gm, '<span style="color:#64748b">$1</span>');
+});
+</script>
+</body>
+</html>

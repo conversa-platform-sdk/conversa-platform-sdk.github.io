@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CLI Setup · Conversa Docs</title>
+<meta name="description" content="Install the Conversa CLI for global access across all your projects." />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, -apple-system, sans-serif; font-size: 15px; line-height: 1.7; color: #1a1a2e; background: #fff; display: flex; min-height: 100vh; }
+  .sidebar { width: 240px; flex-shrink: 0; border-right: 1px solid #e8e4f8; padding: 2rem 1.25rem; position: sticky; top: 0; height: 100vh; overflow-y: auto; background: #faf9ff; }
+  .sidebar-logo { font-weight: 800; font-size: 1.05rem; color: #1f1147; margin-bottom: 1.75rem; display: flex; align-items: center; gap: .5rem; text-decoration: none; }
+  .sidebar-logo span { background: #1f1147; color: #ffd166; border-radius: 6px; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; font-size: .85rem; }
+  .sidebar-section { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #999; margin: 1.5rem 0 .5rem; }
+  .sidebar a { display: block; padding: .3rem .5rem; border-radius: 6px; color: #444; text-decoration: none; font-size: .88rem; }
+  .sidebar a.active { background: #e8e2ff; color: #1f1147; font-weight: 600; }
+  .content { flex: 1; max-width: 780px; padding: 3rem 3.5rem; }
+  .breadcrumb { font-size: .8rem; color: #888; margin-bottom: 1.5rem; }
+  .breadcrumb a { color: #7c5cff; text-decoration: none; }
+  h1 { font-size: 2rem; font-weight: 800; color: #1f1147; margin-bottom: .5rem; }
+  .subtitle { color: #666; font-size: 1rem; margin-bottom: 2.5rem; }
+  h2 { font-size: 1.15rem; font-weight: 700; color: #1f1147; margin: 2.25rem 0 .75rem; padding-top: .5rem; border-top: 1px solid #f0eaff; }
+  h2:first-of-type { border-top: none; }
+  p { color: #333; margin-bottom: .9rem; }
+  ul { padding-left: 1.5rem; margin-bottom: .9rem; color: #333; }
+  li { margin-bottom: .3rem; }
+  a { color: #7c5cff; }
+  pre { background: #0f0f1a; color: #e2e8f0; border-radius: 10px; padding: 1.1rem 1.25rem; overflow-x: auto; margin: .75rem 0 1.25rem; font-size: .84rem; line-height: 1.6; position: relative; }
+  code { font-family: 'SF Mono', Consolas, monospace; font-size: .84rem; }
+  p code { background: #f0ecff; color: #5b21b6; padding: .15em .4em; border-radius: 4px; }
+  .copy-btn { position: absolute; top: .6rem; right: .75rem; background: #2d2d44; border: none; color: #aaa; font-size: .75rem; padding: .25rem .6rem; border-radius: 5px; cursor: pointer; }
+  .callout { border-left: 3px solid #7c5cff; background: #f7f5ff; padding: .75rem 1rem; border-radius: 0 8px 8px 0; margin: 1rem 0; font-size: .9rem; }
+  .callout.tip { border-color: #1bbf89; background: #f0fdf8; }
+  .callout strong { display: block; margin-bottom: .2rem; }
+  .output { background: #0f0f1a; color: #86efac; border-radius: 8px; padding: .75rem 1.1rem; font-size: .82rem; font-family: monospace; margin: -.5rem 0 1.25rem; border-top: 1px dashed #2d2d44; }
+</style>
+</head>
+<body>
+<nav class="sidebar">
+  <a class="sidebar-logo" href="/home"><span>C</span> Conversa</a>
+  <div class="sidebar-section">Getting started</div>
+  <a href="/docs/setup">Quick start</a>
+  <a href="/docs/v3/onboarding">Onboarding</a>
+  <a href="/docs/v3/cli" class="active">CLI setup</a>
+  <a href="/docs/v3/import">Import projects</a>
+  <div class="sidebar-section">Reference</div>
+  <a href="/docs/setup#authentication">Authentication</a>
+  <a href="/docs/setup#channels">Channels API</a>
+  <div class="sidebar-section">Resources</div>
+  <a href="https://github.com/conversa-platform-sdk/conversa-sdk">GitHub</a>
+  <a href="/home">Back to product</a>
+</nav>
+
+<main class="content">
+  <div class="breadcrumb"><a href="/home">Conversa</a> › <a href="#">Docs</a> › CLI setup</div>
+
+  <h1>CLI Setup</h1>
+  <p class="subtitle">Install the Conversa CLI globally so you can run <code>conversa</code> from any project directory without re-initialising.</p>
+
+  <h2>What the CLI installs</h2>
+  <p>The installer writes a single config file to <code>~/.conversa/config.json</code>. This is the same location used by the <code>conversa</code> shell command, the VS Code extension, and the GitHub Action. Once installed, all three tools share the same config automatically.</p>
+
+  <h2>Step 1 — Install</h2>
+  <p>Run the one-line installer:</p>
+  <pre><code>node -e "const fs=require('fs'),os=require('os'),path=require('path');const d=path.join(os.homedir(),'.conversa');fs.mkdirSync(d,{recursive:true});fs.writeFileSync(path.join(d,'config.json'),JSON.stringify({version:'2.0.0',endpoint:'https://chatbot-lac-eight-78.vercel.app/api',installed:new Date().toISOString()},null,2));console.log('Conversa CLI ready at',d);"</code><button class="copy-btn">copy</button></pre>
+  <div class="output">Conversa CLI ready at /Users/you/.conversa</div>
+
+  <h2>Step 2 — Verify</h2>
+  <pre><code>cat ~/.conversa/config.json</code><button class="copy-btn">copy</button></pre>
+  <div class="output">{
+  "version": "2.0.0",
+  "endpoint": "https://chatbot-lac-eight-78.vercel.app/api",
+  "installed": "2026-05-27T..."
+}</div>
+  <div class="callout tip"><strong>Next:</strong> Continue to <a href="/docs/v3/onboarding">Onboarding →</a> to connect your first project.</div>
+</main>
+
+<script>
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    navigator.clipboard.writeText(btn.previousSibling.textContent.trim());
+    btn.textContent = 'copied';
+    setTimeout(() => btn.textContent = 'copy', 1500);
+  });
+});
+</script>
+</body>
+</html>
