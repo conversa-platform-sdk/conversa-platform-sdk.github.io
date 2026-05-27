@@ -30,6 +30,20 @@ Full setup guides are in the [`/docs`](https://conversa-platform-sdk.github.io/s
 - [CLI setup](https://conversa-platform-sdk.github.io/v3/cli)
 - [Import projects](https://conversa-platform-sdk.github.io/v3/import)
 
+## Development workflow
+
+Before starting work, run the verifier to confirm API reachability and get
+the active SDK version:
+
+```bash
+npm install
+node verify.js
+```
+
+The verifier output (sdk version + API status) should be included in any
+bug report or code review to help maintainers correlate issues with
+specific deployments.
+
 ## Requirements
 
 - Node.js 18 or later
