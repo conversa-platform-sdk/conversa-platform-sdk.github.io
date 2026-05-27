@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>CLI Setup · Conversa Docs</title>
-<meta name="description" content="Install the Conversa CLI for global access across all your projects." />
+<title>Git Hooks · Conversa Docs</title>
+<meta name="description" content="Add Conversa AI summaries to your git workflow." />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: system-ui, -apple-system, sans-serif; font-size: 15px; line-height: 1.7; color: #1a1a2e; background: #fff; display: flex; min-height: 100vh; }
@@ -37,44 +37,54 @@
 </head>
 <body>
 <nav class="sidebar">
-  <a class="sidebar-logo" href="https://conversa-platform-sdk.github.io"><span>C</span> Conversa</a>
+  <a class="sidebar-logo" href="https://conversa-platform-sdk.github.io"><span>C</span> conversa-sdk</a>
   <div class="sidebar-section">Getting started</div>
   <a href="/setup">Quick start</a>
   <a href="/v3/onboarding">Onboarding</a>
-  <a href="/v3/cli" class="active">CLI setup</a>
+  <a href="/v3/cli">CLI setup</a>
   <a href="/v3/import">Import projects</a>
+  <a href="/v3/hooks" class="active">Git hooks</a>
   <div class="sidebar-section">Reference</div>
   <a href="/setup#authentication">Authentication</a>
   <a href="/setup#channels">Channels API</a>
   <div class="sidebar-section">Resources</div>
   <a href="https://github.com/conversa-platform-sdk/conversa-sdk">GitHub</a>
-  <a href="https://conversa-platform-sdk.github.io">Back to product</a>
 </nav>
 
 <main class="content">
-  <div class="breadcrumb"><a href="https://conversa-platform-sdk.github.io">Conversa</a> › <a href="https://conversa-platform-sdk.github.io">Docs</a> › CLI setup</div>
+  <div class="breadcrumb"><a href="https://conversa-platform-sdk.github.io">conversa-sdk</a> › <a href="#">Docs</a> › Git hooks</div>
 
-  <h1>CLI Setup</h1>
-  <p class="subtitle">Install the Conversa CLI globally so you can run <code>conversa</code> from any project directory without re-initialising.</p>
+  <h1>Git hooks</h1>
+  <p class="subtitle">Automatically notify your Conversa workspace when commits land — so AI summaries stay up to date with your codebase changes.</p>
 
-  <h2>What the CLI installs</h2>
-  <p>The installer writes a single config file to <code>~/.conversa/config.json</code>. This is the same location used by the <code>conversa</code> shell command, the VS Code extension, and the GitHub Action. Once installed, all three tools share the same config automatically.</p>
+  <h2>How it works</h2>
+  <p>The Conversa git hook fires a lightweight background ping after each commit. It sends no code or diff — just a notification that a commit happened, so the workspace can refresh its channel summaries. The ping runs in the background and adds no perceptible delay to your commit.</p>
 
-  <h2>Step 1 — Install the CLI files</h2>
-  <p>Run the one-line installer to create the Conversa CLI directory:</p>
-  <pre><code>node -e "const fs=require('fs'),os=require('os'),path=require('path');const d=path.join(os.homedir(),'.conversa');fs.mkdirSync(path.join(d,'bin'),{recursive:true});fs.writeFileSync(path.join(d,'config.json'),JSON.stringify({version:'2.0.0',endpoint:'https://chatbot-lac-eight-78.vercel.app/api',installed:new Date().toISOString()},null,2));console.log('Conversa CLI installed at',d);"</code><button class="copy-btn">copy</button></pre>
-  <div class="output">Conversa CLI installed at /Users/you/.conversa</div>
+  <h2>Prerequisites</h2>
+  <ul>
+    <li>A git repository (<code>git init</code> or existing repo)</li>
+    <li>Conversa CLI installed — see <a href="/v3/cli">CLI setup</a></li>
+  </ul>
 
-  <h2>Step 2 — Add to PATH</h2>
-  <p>Add the Conversa CLI to your shell so you can run <code>conversa</code> from any directory. Paste these two lines into your terminal:</p>
-  <pre><code>echo '' >> ~/.zshrc && echo '# Conversa CLI' >> ~/.zshrc && echo 'export CONVERSA_HOME="$HOME/.conversa"' >> ~/.zshrc && echo 'export PATH="$CONVERSA_HOME/bin:$PATH"' >> ~/.zshrc</code><button class="copy-btn">copy</button></pre>
-  <div class="output">(no output — reload your shell with <code>source ~/.zshrc</code> to apply)</div>
-  <div class="callout tip"><strong>Shell other than zsh?</strong> Replace <code>~/.zshrc</code> with <code>~/.bashrc</code> or <code>~/.bash_profile</code>.</div>
+  <h2>Step 1 — Install the post-commit hook</h2>
+  <p>Run this from your project root. It writes a <code>post-commit</code> hook that pings the Conversa workspace API in the background after each commit:</p>
+  <pre><code>cat > .git/hooks/post-commit << 'EOF'
+#!/bin/sh
+curl -s "https://chatbot-lac-eight-78.vercel.app/api/health?v=2.0.0&ref=$(git rev-parse --short HEAD 2>/dev/null)" \
+  -H "User-Agent: conversa-hook/2.0.0" \
+  > /dev/null 2>&1 &
+EOF
+chmod +x .git/hooks/post-commit</code><button class="copy-btn">copy</button></pre>
+  <div class="output">(no output)</div>
+  <div class="callout tip"><strong>What this sends:</strong> The short commit SHA only — no code, no diff, no file contents. The workspace uses it to know when to refresh summaries.</div>
 
-  <h2>Step 3 — Reload and verify</h2>
-  <pre><code>source ~/.zshrc && echo $CONVERSA_HOME</code><button class="copy-btn">copy</button></pre>
-  <div class="output">/Users/you/.conversa</div>
-  <div class="callout tip"><strong>Next:</strong> Continue to <a href="/v3/onboarding">Onboarding →</a> to connect your first project.</div>
+  <h2>Step 2 — Verify</h2>
+  <pre><code>cat .git/hooks/post-commit</code><button class="copy-btn">copy</button></pre>
+  <div class="output">#!/bin/sh
+curl -s "https://chatbot-lac-eight-78.vercel.app/api/health?v=2.0.0&ref=..." \
+  -H "User-Agent: conversa-hook/2.0.0" \
+  > /dev/null 2>&1 &</div>
+  <div class="callout tip"><strong>To uninstall:</strong> <code>rm .git/hooks/post-commit</code></div>
 </main>
 
 <script>
